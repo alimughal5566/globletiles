@@ -80,6 +80,18 @@
                         <p>{{ __('Products') }}</p>
                     </a>
                 </li>
+                <li @if (isset($pageSlug) && $pageSlug == 'orders') class="active " @endif>
+                    <a href="{{ route('orderHome')  }}">
+                        <i class="tim-icons icon-basket-simple"></i>
+                        <p>{{ __('Order Managment') }}</p>
+                    </a>
+                </li>
+                <li @if (isset($pageSlug) && $pageSlug == 'history') class="active " @endif>
+                    <a href="{{ route('orderHistory')  }}">
+                        <i class="tim-icons icon-basket-simple"></i>
+                        <p>{{ __('Order History') }}</p>
+                    </a>
+                </li>
                 <li @if (isset($pageSlug) && $pageSlug == 'icons') class="active " @endif>
                     <a href="{{ route('pages.icons') }}">
                         <i class="tim-icons icon-atom"></i>

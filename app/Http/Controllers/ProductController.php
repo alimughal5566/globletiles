@@ -95,8 +95,6 @@ class ProductController extends Controller
 //        dd($detail);
         return view('product.product-detail',compact('detail'));
     }
-
-
     public function addToCart($id)
     {
         $product = Product::find($id);
@@ -111,7 +109,7 @@ class ProductController extends Controller
                     "name" => $product->name,
                     "quantity" => 1,
                     "price" => $product->price,
-                    "photo" => $product->photo
+                    "photo" => $product->thumbnail
                 ]
             ];
             session()->put('cart', $cart);
@@ -128,10 +126,15 @@ class ProductController extends Controller
             "name" => $product->name,
             "quantity" => 1,
             "price" => $product->price,
-            "photo" => $product->photo
+            "photo" => $product->thumbnail
         ];
         session()->put('cart', $cart);
+//        dd($cart);
         return redirect()->back()->with('success', 'Product added to cart successfully!');
+
+    }
+    public function checkOut(){
+        return view('order.check-out');
     }
 
 

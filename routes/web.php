@@ -19,6 +19,12 @@ Route::get('/view-cart', 'HomeController@viewCart')->name('viewCart');
 Route::get('/contect-us', 'FrontendController@contectUs')->name('contectUs');
 Route::get('/terms', 'FrontendController@terms')->name('terms');
 Route::get('/add-to-cart{id}', 'ProductController@addToCart')->name('addToCart');
+Route::get('/delete-cart{id}', 'ProductController@deleteCart')->name('deleteCart');
+Route::get('/checkOut', 'ProductController@checkOut')->name('checkOut');
+Route::post('/place-order', 'OrderController@placeOrder')->name('placeOrder');
+Route::get('/order-home', 'OrderController@orderHome')->name('orderHome');
+Route::get('/order-approve/{id}', 'OrderController@orderApprove')->name('orderApprove');
+Route::get('/order-history', 'OrderController@orderHistory')->name('orderHistory');
 
 Auth::routes();
 

@@ -30,29 +30,47 @@
                         <div class="col-12 col-lg-9">
                             <form method='POST' id="update_cart_form" action='http://laravel2.themes-coder.net/updateCart' >
                                 <table class="table top-table">
+                                    <thead>
+                                    <tr>
+                                    <th>Product Id</th>
+                                    <th>Thumbnail</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if(session('cart'))
+{{--                                        @dd(session('cart')[19]['name'])--}}
+                                    @foreach(session('cart') as $key => $data)
+
+                                        <tr>
+                                        <th>{{@$key}}</th>
+                                        <th><img src="{{url('black/images').'/'.$data['photo']}}" alt=""style="width: 100px;height: 100px"></th>
+
+                                        <th>{{@$data['name']}}</th>
+                                        <th>{{@$data['quantity']}}</th>
+                                        <th onclick="total($data['price'])">{{@$data['price']}}</th>
+                                        <th>
+                                            <a href="{{route('deleteCart',[$key])}}" class="btn-sm btn-outline-danger">Delete</a>
+
+                                        </th>
+
+
+                                    </tr>
+                                        @endforeach
+                                    @endif
+                                    </tbody>
                                 </table>
                             </form>
                             <div class="col-12 col-lg-12 mb-4">
                                 <div class="row justify-content-between click-btn">
                                     <div class="col-12 col-lg-4">
-                                        <form id="apply_coupon" class="form-validate">
-                                            <div class="row">
-                                                <div class="input-group">
-                                                    <input type="text" name="coupon_code" class="form-control" id="coupon_code" placeholder="Coupon Code" aria-label="Coupon Code" aria-describedby="coupon-code">
-
-                                                    <div class="">
-                                                        <button class="btn btn-secondary swipe-to-top" type="submit" id="coupon-code">APPLY</button>
-                                                    </div>
-                                                </div>
-                                                <div id="coupon_error" class="help-block" style="display: none;color:red;"></div>
-                                                <div  id="coupon_require_error" class="help-block" style="display: none;color:red;">Please enter a valid coupon code</div>
-                                            </div>
-                                        </form>
                                     </div>
-                                    <div class="col-12 col-lg-7 align-right">
+                                    <div class="col-12 col-lg-7 align-right mt-2">
                                         <div class="row">
-                                            <a  href="shop.html" class="btn btn-secondary swipe-to-top">CONTINUE SHOPPING</a>
-                                            <button class="btn btn-light swipe-to-top" id="update_cart">Update Cart</button>
+                                            <a  href="{{route('welcome')}}" class="btn btn-secondary swipe-to-top">CONTINUE SHOPPING</a>
                                         </div>
 
                                     </div>
@@ -84,7 +102,12 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <a href="login.html" class="btn btn-secondary m-btn col-12 swipe-to-top">Proceed To Checkout</a>
+                            @if(\Illuminate\Support\Facades\Auth::user())
+                            <a href="{{route('checkOut')}}" class="btn btn-secondary m-btn col-12 swipe-to-top">Proceed To Checkout</a>
+                            @else
+                                <a href="{{route('login')}}" class="btn btn-secondary m-btn col-12 swipe-to-top">Proceed To Checkout</a>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -93,5 +116,4 @@
         </div>
     </section>
 </section>
-
 @endsection

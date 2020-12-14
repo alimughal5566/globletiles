@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>GT | @yield('title')</title>
-
     <meta name="DC.title"  content=""/>
     <meta name="description" content=""/>
     <meta name="keywords" content=""/>
@@ -142,7 +141,13 @@
                             </div>
                         </li>
 @if(Auth::user())
-                            <li class="link-item"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;{{Auth()->user()->f_name}}&nbsp;{{Auth()->user()->l_name}}</li>
+                            <li class="link-item">&nbsp; {{Auth()->user()->f_name}} &nbsp; {{Auth()->user()->l_name}} &nbsp; <i class="fa fa-lock" aria-hidden="true"></i> &nbsp;
+                                <form action="{{ route('logout') }}" id="formOne" method="post">
+                                    @csrf
+                                    <a href="#" onclick="formOne.submit()">Logout</a>
+                                </form>
+                            </li>
+{{--                            <li class="link-item"> <a href="{{ route('login') }}"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;Login/Register</a> </li>--}}
                         @else
                             <li class="link-item"> <a href="{{ route('login') }}"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;Login/Register</a> </li>
 @endif
@@ -218,13 +223,23 @@
                             </a>
                         </li>
                         <li class="cart-header dropdown head-cart-content">
-                            <a href="#" id="dropdownCartButton_3" class="dropdown-toggle cart-down"
+                            <a href="{{route('viewCart')}}" id="dropdownCartButton_3" class="dropdown-toggle cart-down"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
 
                                 <div class="cart-left">
                                     <i class="fas fa-shopping-bag"></i>
-                                    <span class="badge badge-secondary">0</span>
+                                    <span class="badge badge-secondary">
+                                    @if(session('cart'))
+                                        @php
+                                         $cart =  session('cart');
+                                        $count= count($cart);
+                                        echo $count
+                                    @endphp
+                                        @else
+                                        0
+                                    @endif
+
+                                    </span>
                                 </div>
                                 <span class="block">
     <span class="title">My Cart </span>
@@ -235,7 +250,17 @@
 
                             <div class="shopping-cart shopping-cart-empty dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 <ul class="shopping-cart-items">
-                                    <li>You have no items in your shopping cart.</li>
+                                    @if(session('cart'))
+{{--                                        @dd(session('cart'))--}}
+                                    <li>Name --- Quantity --- Price </li>
+                                       @foreach(session('cart') as $data)
+                                            <li>{{$data['name']}} --- {{$data['quantity']}} --- {{$data['price']}}</li>
+                                       @endforeach
+                                        <a href="{{route('viewCart')}}">view Details</a>
+                                    @else
+                                        <li>You have no items in your shopping cart.</li>
+                                    @endif
+
                                 </ul>
                             </div>
 
